@@ -97,11 +97,11 @@ letsencrypt::config:
 ## Masterless installation
 It is also possible to use the module without a Puppet master by applying a manifest directly using `puppet apply`.
 
-There is an example manifest in `examples/complete.pp`.
+There is an example manifest in `examples/host.pp`.
 
 ```bash
-cd /etc/puppetlabes/code/modules/fractalis
-sudo puppet apply examples/complete.pp
+cd /etc/puppetlabes/code/modules/ssl_proxy
+sudo puppet apply examples/host.pp
 ```
 
 
