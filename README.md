@@ -1,5 +1,7 @@
 # Puppet module providing an SSL proxy
 
+[![Build Status](https://travis-ci.org/thehyve/puppet-ssl_proxy.svg?branch=main)](https://travis-ci.org/thehyve/puppet-ssl_proxy/branches)
+
 This module provides an SSL proxy using nginx and Let's Encrypt.
 
 
