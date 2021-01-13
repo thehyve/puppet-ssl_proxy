@@ -78,7 +78,6 @@ nginx::ssl_protocols: TLSv1.2 TLSv1.3
 nginx::ssl_ciphers: ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384
 nginx::ssl_prefer_server_ciphers: 'off'
 nginx::proxy_set_header:
-  - Host $host
   - X-Real-IP $remote_addr
   - X-Forwarded-For $proxy_add_x_forwarded_for
   - X-Forwarded-Proto $scheme
