@@ -1,0 +1,3 @@
+---
+letsencrypt::email: test@example.com
+letsencrypt::configure_epel: false

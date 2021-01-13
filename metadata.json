@@ -1,0 +1,52 @@
+{
+  "name": "thehyve-ssl_proxy",
+  "version": "0.0.1",
+  "author": "thehyve",
+  "summary": "Provide an SSL proxy with automated certificate renewal using Let's Encrypt",
+  "license": "Apache-2.0",
+  "source": "https://github.com/thehyve/puppet-ssl_proxy",
+  "project_page": "https://github.com/thehyve/puppet-ssl_proxy",
+  "issues_url": "https://github.com/thehyve/puppet-ssl_proxy/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 1.0.0"
+    },
+    {
+      "name": "puppet-nginx",
+      "version_requirement": ">= 2.1.1"
+    },
+    {
+      "name": "puppet-letsencrypt",
+      "version_requirement": ">= 6.0.0"
+    }
+  ],
+  "data_provider": null,
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "8",
+        "9",
+        "10"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "14.04",
+        "16.04",
+        "18.04",
+        "20.04"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "7",
+        "8"
+      ]
+    }
+  ]
+}
+
