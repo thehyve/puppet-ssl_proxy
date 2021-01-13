@@ -4,11 +4,9 @@ define ssl_proxy::host (
   $timeout    = '90s',
 ) {
   $www_root = "/var/www/letsencrypt/${servername}"
-  file { '/var/www/letsencrypt':
-    ensure => directory,
-  }
-  -> file { $www_root:
-    ensure => directory,
+  file { $www_root:
+    ensure  => directory,
+    require => File['/var/www/letsencrypt'],
   }
   -> nginx::resource::server { "http:${servername}":
     ensure              => present,
