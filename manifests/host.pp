@@ -43,6 +43,9 @@ define ssl_proxy::host (
     ssl                   => true,
     ssl_cert              => "/etc/letsencrypt/live/${servername}/fullchain.pem",
     ssl_key               => "/etc/letsencrypt/live/${servername}/privkey.pem",
+    server_cfg_append     => {
+      'add_header' => 'Strict-Transport-Security "max-age=63072000" always',
+    },
     proxy                 => $dest,
     proxy_read_timeout    => $timeout,
     proxy_connect_timeout => $timeout,
