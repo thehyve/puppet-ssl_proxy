@@ -34,7 +34,7 @@ define ssl_proxy::host (
     webroot_paths        => [
       $www_root,
     ],
-    manage_cron          => false, # true,
+    manage_cron          => true,
     cron_success_command => '/bin/systemctl reload nginx.service',
   }
   -> nginx::resource::server { $servername:
