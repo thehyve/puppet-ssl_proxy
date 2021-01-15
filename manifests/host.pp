@@ -22,7 +22,7 @@ define ssl_proxy::host (
   -> nginx::resource::location { "letsencrypt-${servername}":
     ensure   => present,
     server   => "http:${servername}",
-    location => '/.well-known',
+    location => '/.well-known/acme-challenge/',
     www_root => $www_root,
     priority => 499,
   }
