@@ -43,16 +43,36 @@ git clone https://github.com/thehyve/puppet-ssl_proxy.git ssl_proxy
 
 ### The node manifest
 
+#### Create a reverse proxy with `ssl_proxy::host`
+
 Here is an example manifest file `manifests/test.example.com.pp`:
 ```puppet
 node 'test.example.com' {
-  ::ssl_proxy::host { 'test.example.com':
+  include ::ssl_proxy
+
+  ssl_proxy::host { 'test.example.com':
     servername => 'test.example.com',
     dest       => 'http://test:8080',
   }
 }
 ```
 The node manifest can also be in another file, e.g., `site.pp`.
+
+#### Create a redirect with `ssl_proxy::redirect`
+
+Here is an example manifest file `manifests/forward.example.com.pp`:
+```puppet
+node 'test.example.com' {
+  include ::ssl_proxy
+
+  # Forward requests to forward.example.com to test.example.com.
+  # Target should start with 'https://'
+  ssl_proxy::host { 'forward.example.com':
+    servername => 'test.example.com',
+    target     => 'https://test.example.com',
+  }
+}
+```
 
 ### Configuring a node using Hiera
 

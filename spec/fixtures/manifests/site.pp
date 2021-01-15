@@ -17,3 +17,19 @@ node 'test2.example.com' {
       dest => 'http://localhost:3003',
     }
 }
+
+node 'forward.example.com' {
+    include ::ssl_proxy
+
+    ssl_proxy::redirect { 'forward.example.com':
+      target => 'https://test.example.com'
+    }
+}
+
+node 'invalid-redirect.example.com' {
+    include ::ssl_proxy
+
+    ssl_proxy::redirect { 'forward.example.com':
+      target => 'http://test.example.com'
+    }
+}
