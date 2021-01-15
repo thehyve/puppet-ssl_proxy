@@ -86,6 +86,19 @@ nginx::proxy_set_header:
 letsencrypt::email: letsencrypt@example.com
 letsencrypt::configure_epel: false
 ```
+
+For Keycloak it is required to use also set the `Host` header:
+```yaml
+nginx::proxy_set_header:
+  - Host $host
+  - X-Real-IP $remote_addr
+  - X-Forwarded-For $proxy_add_x_forwarded_for
+  - X-Forwarded-Proto $scheme
+  - Proxy ""
+```
+
+`TODO`: Find out if the `Host` header can be added by default, or how to make this configurable.
+
 Machine specific configuration should be in `/etc/puppetlabs/code/hieradata/${hostname}.yaml`, e.g.,
 `/etc/puppetlabs/code/hieradata/test.example.com.yaml`:
 ```yaml
