@@ -1,9 +1,15 @@
 define ssl_proxy::redirect (
   String[1] $target,
   $servername = $name,
+  $temporary  = false,
 ) {
   if $target !~ /^https:\/\// {
     fail("The redirect target should start with 'https://'. Unexpected target: ${target}")
+  }
+  if $temporary {
+    $return_code = 302
+  } else {
+    $return_code = 301
   }
   $www_root = "/var/www/letsencrypt/${servername}"
   file { $www_root:
@@ -18,7 +24,7 @@ define ssl_proxy::redirect (
     listen_port         => 80,
     www_root            => $www_root,
     location_cfg_append => {
-      'return' => "301 ${target}\$request_uri"
+      'return' => "${return_code} ${target}\$request_uri"
     },
   }
   -> nginx::resource::location { "letsencrypt-${servername}":
@@ -52,7 +58,7 @@ define ssl_proxy::redirect (
       'add_header' => 'Strict-Transport-Security "max-age=63072000" always',
     },
     location_cfg_append => {
-      'return' => "301 ${target}\$request_uri"
+      'return' => "${return_code} ${target}\$request_uri"
     },
   }
 }
