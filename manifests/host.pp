@@ -1,9 +1,62 @@
 define ssl_proxy::host (
-  $servername = $name,
-  $dest       = 'http://localhost:8080/',
-  $timeout    = '90s',
-  $maintenance = false,
+  $servername          = $name,
+  $dest                = 'http://localhost:8080/',
+  $timeout             = '90s',
+  $maintenance         = false,
+  $maintenance_title   = 'Maintenance',
+  $maintenance_message = 'This service is temporarily unavailable due to maintenance.',
+  $service_down_title   = 'Service down',
+  $service_down_message = 'This service is temporarily unavailable.',
 ) {
+  $maintenance_root = "/var/www/maintenance/${servername}"
+  file { $maintenance_root:
+    ensure  => directory,
+    require => File['/var/www/maintenance'],
+  }
+  -> file { "${maintenance_root}/502.html":
+    ensure  => file,
+    mode    => '0644',
+    content => template('ssl_proxy/502.html.erb'),
+  }
+  -> file { "${maintenance_root}/503.html":
+    ensure  => file,
+    mode    => '0644',
+    content => template('ssl_proxy/503.html.erb'),
+  }
+  if ($maintenance) {
+    $default_return = {
+      return => '503',
+    }
+    $error_pages = {
+      '502' => '/502.html',
+      '503' => '/503.html',
+    }
+    $maintenance_locations = {
+      "${servername}/502" => {
+        location => '= /502.html',
+        internal => true,
+        www_root => $maintenance_root,
+      },
+      "${servername}/503" => {
+        location => '= /503.html',
+        internal => true,
+        www_root => $maintenance_root,
+      },
+    }
+  } else {
+    $default_return = undef
+    $error_pages = {
+      '502' => '/502.html',
+    }
+    $maintenance_locations = {
+      "${servername}/502" => {
+        location => '= /502.html',
+        internal => true,
+        www_root => $maintenance_root,
+      },
+    }
+  }
+
   $www_root = "/var/www/letsencrypt/${servername}"
   file { $www_root:
     ensure  => directory,
@@ -55,6 +108,9 @@ define ssl_proxy::host (
     proxy_connect_timeout => $timeout,
     proxy_send_timeout    => $timeout,
     proxy_redirect        => 'default',
-    maintenance           => $maintenance,
+    location_cfg_prepend  => $default_return,
+    error_pages           => $error_pages,
+    locations             => $maintenance_locations,
+    require               => File["${maintenance_root}/503.html"],
   }
 }
