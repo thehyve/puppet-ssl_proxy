@@ -2,6 +2,7 @@ define ssl_proxy::host (
   $servername = $name,
   $dest       = 'http://localhost:8080/',
   $timeout    = '90s',
+  $maintenance = false,
 ) {
   $www_root = "/var/www/letsencrypt/${servername}"
   file { $www_root:
@@ -53,6 +54,7 @@ define ssl_proxy::host (
     proxy_read_timeout    => $timeout,
     proxy_connect_timeout => $timeout,
     proxy_send_timeout    => $timeout,
-    proxy_redirect        => 'default'
+    proxy_redirect        => 'default',
+    maintenance           => $maintenance,
   }
 }
