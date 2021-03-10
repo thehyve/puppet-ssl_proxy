@@ -44,4 +44,9 @@ class ssl_proxy {
       ensure => directory,
     }
   }
+  if !defined(File['/var/www/maintenance']) {
+    file { '/var/www/maintenance':
+      ensure => directory,
+    }
+  }
 }
