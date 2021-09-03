@@ -179,11 +179,17 @@ Overview of the resources defined in this module.
 
 Overview of the parameters that can be used to configure the `host` resource.
 
-| Parameter    | Default value           | Description |
-|:------------ |:----------------------- |:----------- |
-| `servername` |                         | The external servername. |
-| `dest`       | `http://localhost:8080` | The address the proxy forwards to. |
-| `timeout`    | `90s`                   | The proxy timeout |
+| Parameter              | Default value           | Description |
+|:---------------------- |:----------------------- |:----------- |
+| `servername`           |                         | The external servername. |
+| `dest`                 | `http://localhost:8080` | The address the proxy forwards to. |
+| `allow`                | `[]`                    | IP addresses to allow traffic from.
+| `timeout`              | `90s`                   | The proxy timeout. |
+| `maintenance`          | `false`                 | Enables the maintenance page. |
+| `maintenance_title`    | `Maintenance`           | Title of the maintenance page. |
+| `maintenance_message`  | `This service is temporarily unavailable due to maintenance.` | Maintenance page message. |
+| `service_down_title`   | `Service down`          | Title of the 503 (Service Unavailable) page. |
+| `service_down_message` | `This service is temporarily unavailable.` | Message on the 503 (Service Unavailable) page. |
 
 
 ## License
