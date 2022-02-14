@@ -1,6 +1,7 @@
 define ssl_proxy::host (
   $servername          = $name,
   $dest                = 'http://localhost:8080/',
+  $allow               = [],
   $timeout             = '90s',
   $maintenance         = false,
   $maintenance_title   = 'Maintenance',
@@ -57,6 +58,12 @@ define ssl_proxy::host (
     }
   }
 
+  if (empty($allow)) {
+    $deny = []
+  } else {
+    $deny = ['all']
+  }
+
   $www_root = "/var/www/letsencrypt/${servername}"
   file { $www_root:
     ensure  => directory,
@@ -108,6 +115,8 @@ define ssl_proxy::host (
     proxy_connect_timeout => $timeout,
     proxy_send_timeout    => $timeout,
     proxy_redirect        => 'default',
+    location_allow        => $allow,
+    location_deny         => $deny,
     location_cfg_prepend  => $default_return,
     error_pages           => $error_pages,
     locations             => $maintenance_locations,

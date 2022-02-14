@@ -39,6 +39,11 @@ class ssl_proxy {
   if !defined(Class['letsencrypt']) {
     include ::letsencrypt
   }
+  if !defined(File['/var/www']) {
+    file { '/var/www':
+      ensure => directory,
+    }
+  }
   if !defined(File['/var/www/letsencrypt']) {
     file { '/var/www/letsencrypt':
       ensure => directory,
