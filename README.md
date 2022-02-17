@@ -41,6 +41,29 @@ git clone https://github.com/thehyve/puppet-ssl_proxy.git ssl_proxy
 
 ## Configuration
 
+### TLS configuration
+
+The module uses `nginx` and `letsencrypt` for the proxy. 
+Please ensure that the configuration is secure. 
+It is preferred to configure good defaults in the `common.yaml`
+file of each environment:
+```yaml
+nginx::ssl_protocols: TLSv1.2 TLSv1.3
+nginx::ssl_ciphers: ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384
+nginx::ssl_prefer_server_ciphers: 'off'
+nginx::proxy_set_header:
+  - X-Real-IP $remote_addr
+  - X-Forwarded-For $proxy_add_x_forwarded_for
+  - X-Forwarded-Proto $scheme
+  - Proxy ""
+letsencrypt::email: <support email address>
+```
+Please update the protocol and cipher lists to reflect the advice from the [Mozilla SSL Configuration Generator](https://ssl-config.mozilla.org/#server=nginx&config=intermediate).
+To check if the configuration is secure, check, e.g.,
+the [SSL Labs server report for repo.thehyve.nl](https://www.ssllabs.com/analyze.html?d=repo.thehyve.nl&latest).
+
+This proxy header configuration works well for most applications. Some also need the `Host $host` header (e.g., Keycloak). This configuration can be overridden in the machine specific Hiera file.
+
 ### The node manifest
 
 #### Create a reverse proxy with `ssl_proxy::host`
